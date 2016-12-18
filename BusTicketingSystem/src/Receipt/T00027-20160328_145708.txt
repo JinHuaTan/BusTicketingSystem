@@ -1,0 +1,15 @@
+GotoMalaysia Official Receipt
+#T00027
+===========
+
+No. TicketID/SeatNo    From/To                             Departure Date/Time            Price(RM)    
+1.  TC0055-A07         Klang, Selangor-Kangar, Perlis      28-03-2016 07:45 PM            32.0         
+2.  TC0058-A10         Klang, Selangor-Kangar, Perlis      28-03-2016 07:45 PM            32.0         
+3.  TC0061-A13         Klang, Selangor-Kangar, Perlis      28-03-2016 07:45 PM            32.0         
+4.  TC0064-A16         Klang, Selangor-Kangar, Perlis      28-03-2016 07:45 PM            32.0         
+
+Sub Total : RM 128.00
+Discount : RM 0.00()
+Gst : RM 7.68
+Grand Total : RM 120.32
+Change : RM 79.68

@@ -1,0 +1,19 @@
+GotoMalaysia Official Receipt
+#T00014
+===========
+
+No. TicketID/SeatNo    From/To                             Departure Date/Time            Price(RM)    
+1.  TC0218-A02         Terengganu-Ipoh                     20-04-2016 10:00 AM            22.0         
+2.  TC0217-A01         Terengganu-Ipoh                     20-04-2016 10:00 AM            22.0         
+3.  TC0221-A05         Terengganu-Ipoh                     20-04-2016 10:00 AM            22.0         
+4.  TC0222-A06         Terengganu-Ipoh                     20-04-2016 10:00 AM            22.0         
+5.  TC0226-A10         Terengganu-Ipoh                     20-04-2016 10:00 AM            22.0         
+6.  TC0225-A09         Terengganu-Ipoh                     20-04-2016 10:00 AM            22.0         
+7.  TC0229-A13         Terengganu-Ipoh                     20-04-2016 10:00 AM            22.0         
+8.  TC0230-A14         Terengganu-Ipoh                     20-04-2016 10:00 AM            22.0         
+
+Sub Total : RM 176.00
+Discount : RM 0.00()
+Gst : RM 10.56
+Grand Total : RM 165.44
+Change : RM 34.56

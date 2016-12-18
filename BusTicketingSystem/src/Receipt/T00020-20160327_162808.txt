@@ -1,0 +1,15 @@
+GotoMalaysia Official Receipt
+#T00020
+===========
+
+No. TicketID/SeatNo    From/To                             Departure Date/Time            Price(RM)    
+1.  TC0142-A22         Ipoh-Klang, Selangor                23-05-2016 08:55 AM            29.0         
+2.  TC0141-A21         Ipoh-Klang, Selangor                23-05-2016 08:55 AM            29.0         
+3.  TC0145-A25         Ipoh-Klang, Selangor                23-05-2016 08:55 AM            29.0         
+4.  TC0146-A26         Ipoh-Klang, Selangor                23-05-2016 08:55 AM            29.0         
+
+Sub Total : RM 116.00
+Discount : RM 0.00()
+Gst : RM 6.96
+Grand Total : RM 109.04
+Change : RM 10.96

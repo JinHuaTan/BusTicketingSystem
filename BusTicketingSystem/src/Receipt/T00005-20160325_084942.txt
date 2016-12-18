@@ -1,0 +1,17 @@
+GotoMalaysia Official Receipt
+#T00005
+===========
+
+No. TicketID/SeatNo    From/To                             Departure Date/Time            Price(RM)    
+1.  TC0153-A01         Kuantan-Seremban                    05-04-2016 10:30 AM            22.0         
+2.  TC0157-A05         Kuantan-Seremban                    05-04-2016 10:30 AM            22.0         
+3.  TC0161-A09         Kuantan-Seremban                    05-04-2016 10:30 AM            22.0         
+4.  TC0165-A13         Kuantan-Seremban                    05-04-2016 10:30 AM            22.0         
+5.  TC0169-A17         Kuantan-Seremban                    05-04-2016 10:30 AM            22.0         
+6.  TC0173-A21         Kuantan-Seremban                    05-04-2016 10:30 AM            22.0         
+
+Sub Total : RM 132.00
+Discount : RM 0.00()
+Gst : RM 7.92
+Grand Total : RM 124.08
+Change : RM 75.92
