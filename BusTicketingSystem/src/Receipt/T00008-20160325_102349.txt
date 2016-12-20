@@ -1,0 +1,14 @@
+GotoMalaysia Official Receipt
+#T00008
+===========
+
+No. TicketID/SeatNo    From/To                             Departure Date/Time            Price(RM)    
+1.  TC0030-A06         Ipoh-Terengganu                     09-05-2016 08:45 AM            25.0         
+2.  TC0027-A03         Ipoh-Terengganu                     09-05-2016 08:45 AM            25.0         
+3.  TC0036-A12         Ipoh-Terengganu                     09-05-2016 08:45 AM            25.0         
+
+Sub Total : RM 75.00
+Discount : RM 0.00()
+Gst : RM 4.50
+Grand Total : RM 70.50
+Change : RM 129.50
