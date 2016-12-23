@@ -46,7 +46,6 @@ public class PurchaseTicketInfo extends JFrame {
         mtcc = new MaintainTicketControl();
         listModel = new DefaultListModel();
 
-        //initialise trip
         for (int i = 0; i < mtc.getAllRecord().size(); i++) {
             tripModel.addElement(mtc.getAllRecord().get(i).getTripid());
         }
@@ -72,15 +71,26 @@ public class PurchaseTicketInfo extends JFrame {
 
         jpHeader.setBackground(Color.BLACK);
         jpHeader.add(jpCombo);
-        //END initialise trip
+
         list = new JList(listModel);
         list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         JScrollPane listScrollPane = new JScrollPane(list);
         listScrollPane.setPreferredSize(new Dimension(100, 600));
 
-        
-        
-        //Send to payment
+        jbtDelete.setBackground(new Color(231, 76, 60));
+        jbtDelete.setForeground(Color.WHITE);
+        jbtDelete.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for (int i = 0; i < listModel.size(); i++) {
+                    if (!listModel.get(i).equals("")) {
+                        Ticket tc = mtcc.selectRecord((String) listModel.get(i));
+                        purchasedList.add(tc);
+                    }
+                }
+
+            }
+        });
+
         jbtPayment.setBackground(new Color(52, 152, 219));
         jbtPayment.setForeground(Color.WHITE);
         jbtPayment.addActionListener(new ActionListener() {
@@ -95,24 +105,6 @@ public class PurchaseTicketInfo extends JFrame {
                 dispose();
             }
         });
-        //END Send to payment
-        
-        //reverse after click selected
-        jbtDelete.setBackground(new Color(231, 76, 60));
-        jbtDelete.setForeground(Color.WHITE);
-        jbtDelete.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                for (int i = 0; i < listModel.size(); i++) {
-                    if (!listModel.get(i).equals("")) {
-                        Ticket tc = mtcc.selectRecord((String) listModel.get(i));
-                        purchasedList.add(tc);
-                    }
-                }
-
-            }
-        });
-        //END reverse after click selected
-        
         jbtDelete.addActionListener(new DeleteButtonListener());
         jpListButton.add(jbtDelete);
         jpListButton.add(jbtPayment);
@@ -121,7 +113,19 @@ public class PurchaseTicketInfo extends JFrame {
         jpList.add(listScrollPane, BorderLayout.CENTER);
         jpList.add(jpListButton, BorderLayout.SOUTH);
 
+        JLabel[] jlInfo = new JLabel[6];
+        String[] sInfo = {"Tripid", "Seatnumber", "Availability", "Fare Per Ticket", "Depart Date", "Arrival Date"};
 
+        for (int i = 0; i < 6; i++) {
+            jlInfo[i] = new JLabel(sInfo[i]);
+            jlInfo[i].setForeground(new Color(26, 188, 156));
+            jlInfo[i].setFont(new Font("Arial", Font.BOLD, 15));
+            jtfInfo[i] = new JTextField("-");
+            jtfInfo[i].setEditable(false);
+            jtfInfo[i].setBorder(null);
+            jpTicketInfo.add(jlInfo[i]);
+            jpTicketInfo.add(jtfInfo[i]);
+        }
 
         jpTicketInfo.setBackground(new Color(238, 238, 238));
         jpTicketInfo.setPreferredSize(new Dimension(getWidth(), 100));
