@@ -118,8 +118,8 @@ public class Payment extends JFrame {
             count++;
 
         }
-        gst = subTotal * 0.06;
-        jlbGSTI.setText(String.format("%.2f", gst) + "");
+
+
         jlbSubTotalI.setText(String.format("%.2f", subTotal) + "");
         JTable table = new JTable(data, columnNames);
         table.setPreferredScrollableViewportSize(new Dimension(490, 390));
@@ -278,6 +278,10 @@ public class Payment extends JFrame {
             // Ignore this character
             evt.consume();
         }
+    }
+
+
+    public static void main(String[] args) {
     }
 
     
