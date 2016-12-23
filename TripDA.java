@@ -1,12 +1,32 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package BUSDA;
 
-
+/**
+ *
+ * @author Student
+ */
+import BUSCONTROL.MaintainBusControl;
+import BUSCONTROL.MaintainRouteControl;
+import BUSCONTROL.MaintainDriverlistControl;
+import BUSCONTROL.MaintainTicketControl;
+import BUSCONTROL.MaintainTripControl;
+import BUSDOMAIN.Bus;
+import BUSDOMAIN.Route;
+import BUSDOMAIN.Driverlist;
+import BUSDOMAIN.Trip;
 import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
 public class TripDA {
 
+    private final String host = "jdbc:derby://localhost:1527/busticket";
+    private final String user = "root";
+    private final String password = "123456";
     private final String tableName = "Trip";
     private Connection conn;
     private PreparedStatement stmt;
@@ -15,7 +35,14 @@ public class TripDA {
     private MaintainRouteControl mrc;
     private MaintainDriverlistControl msc;
 
-public ArrayList<String> getAllColumnName() {
+    public TripDA() {
+        createConnection();
+        mbc = new MaintainBusControl();
+        mrc = new MaintainRouteControl();
+        msc = new MaintainDriverlistControl();
+    }
+
+    public ArrayList<String> getAllColumnName() {
         ArrayList<String> s = new ArrayList<String>();
         ResultSet rs = null;
         try {
@@ -196,3 +223,31 @@ public ArrayList<String> getAllColumnName() {
         }
         return ID;
     }
+
+    private void createConnection() {
+        String sqlStr;
+        try {
+            conn = DriverManager.getConnection(host, user, password);
+            sqlStr = "SELECT * FROM " + tableName + " ORDER BY TRIPID";
+            stmt = conn.prepareStatement(sqlStr, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            rs = stmt.executeQuery();
+            System.out.println(" ***TRACE: Trip Connection established.");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "createConnection, Error in TripDA " + ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void shutDown() {
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println("TripDA successfully launched");
+    }
+}

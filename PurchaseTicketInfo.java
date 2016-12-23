@@ -97,7 +97,21 @@ public class PurchaseTicketInfo extends JFrame {
         });
         //END Send to payment
         
+        //reverse after click selected
+        jbtDelete.setBackground(new Color(231, 76, 60));
+        jbtDelete.setForeground(Color.WHITE);
+        jbtDelete.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for (int i = 0; i < listModel.size(); i++) {
+                    if (!listModel.get(i).equals("")) {
+                        Ticket tc = mtcc.selectRecord((String) listModel.get(i));
+                        purchasedList.add(tc);
+                    }
+                }
 
+            }
+        });
+        //END reverse after click selected
         
         jbtDelete.addActionListener(new DeleteButtonListener());
         jpListButton.add(jbtDelete);
@@ -127,6 +141,23 @@ public class PurchaseTicketInfo extends JFrame {
         setVisible(true);
     }
 
+    public class DeleteButtonListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+
+            ListSelectionModel lsm = list.getSelectionModel();
+            int firstSelected = lsm.getMinSelectionIndex();
+            int lastSelected = lsm.getMaxSelectionIndex();
+            listModel.removeRange(firstSelected, lastSelected);
+
+            int size = listModel.size();
+
+            if (firstSelected == listModel.getSize()) {
+                firstSelected--;
+            }
+            list.setSelectedIndex(firstSelected);
+        }
+    }
 
     public void CreateTicketJButtons(Trip t) {
         ArrayList<Ticket> ticketList = null;
