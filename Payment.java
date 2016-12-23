@@ -118,8 +118,8 @@ public class Payment extends JFrame {
             count++;
 
         }
-
-
+        gst = subTotal * 0.06;
+        jlbGSTI.setText(String.format("%.2f", gst) + "");
         jlbSubTotalI.setText(String.format("%.2f", subTotal) + "");
         JTable table = new JTable(data, columnNames);
         table.setPreferredScrollableViewportSize(new Dimension(490, 390));
@@ -280,6 +280,48 @@ public class Payment extends JFrame {
         }
     }
 
+    public class ProceedListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+            double amountPaid = 0;
+            boolean exception = true;
+
+            if (jrbIsDiscount.isSelected()) {
+                totalDiscount = Double.parseDouble(jtfAmountDiscount.getText());
+            }
+            jlbTotalDiscountI.setText(String.format("%.2f", totalDiscount) + "");
+
+            jlbBalanceDueI.setText(String.format("%.2f", balanceDue) + "");
+            double balanceDue2 = 0;
+            do {
+                try {
+                    do {
+                        if (JOptionPane.showConfirmDialog(null, "Proceed to payment?", "Payment", JOptionPane.WARNING_MESSAGE) == 0) {
+                            amountPaid = Double.parseDouble(JOptionPane.showInputDialog(null, "Amount Paid :", "Payment", JOptionPane.INFORMATION_MESSAGE));
+                            balanceDue2 = balanceDue - amountPaid;
+                            if (balanceDue2 <= 0) {
+                                jlbBalanceDueI.setText("0.00");
+                                change = amountPaid - balanceDue;
+                                jlbChangeI.setText(String.format("%.2f", change) + "");
+                                balanceDue = 0;
+                            } else {
+                                balanceDue = balanceDue2;
+                                JOptionPane.showMessageDialog(null, "Insufficient Amount", "Payment", JOptionPane.ERROR_MESSAGE);
+                            }
+                            exception = false;
+                        }
+
+                    } while (balanceDue2 > 0);
+
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Enter Only Integer!");
+                    exception = true;
+                }
+            } while (exception == true);
+            newTrans();
+            ((Window) getRootPane().getParent()).dispose();
+        }
+    }
 
     public static void main(String[] args) {
     }
