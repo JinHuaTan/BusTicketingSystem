@@ -56,7 +56,7 @@ public class TicketTripInfo extends JFrame {
         currentCounter = ds;
         mtc = new MaintainTripControl();
         mdc = new MaintainDslocationControl();
-//display trip
+
         srcModel.addElement("All");
         destModel.addElement("All");
         ddayModel.addElement("Any");
@@ -77,7 +77,7 @@ public class TicketTripInfo extends JFrame {
         for (int i = 0; i < tripList.size(); i++) {
             CreateTripJButton(tripList.get(i));
         }
-//End display trip
+
         Calendar calOri = Calendar.getInstance();
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, 1);
@@ -507,7 +507,80 @@ public class TicketTripInfo extends JFrame {
         }
     }
 
+    //sorting trip 
+    public void CompareDateWithTrip(Trip t, int d, int m, int y) {//trip's date must same with jcombo
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm aa");
+        Date dateTrip = null;
+        Calendar calendar = Calendar.getInstance();
+        try {
+            dateTrip = sdf.parse(t.getDepartdate());
+            calendar.setTime(dateTrip);
+            if (d == -1 && m == -1 && y == -1) {
+                CreateTripJButton(t);
+            } else if (d == -1 && m == -1 && y != -1) {
+                if (calendar.get(Calendar.YEAR) == y) {
+                    CreateTripJButton(t);
+                }
 
+            } else if (d == -1 && m != -1 && y == -1) {
+                if ((calendar.get(Calendar.MONTH) + 1) == m) {
+                    CreateTripJButton(t);
+                }
+
+            } else if (d == -1 && m != -1 && y != -1) {
+                if ((calendar.get(Calendar.MONTH) + 1) == m && calendar.get(Calendar.YEAR) == y) {
+                    CreateTripJButton(t);
+                }
+            } else if (d != -1 && m == -1 && y == -1) {
+                if (calendar.get(Calendar.DAY_OF_MONTH) == d) {
+                    CreateTripJButton(t);
+                }
+            } else if (d != -1 && m == -1 && y != -1) {
+                if (calendar.get(Calendar.DAY_OF_MONTH) == d && calendar.get(Calendar.YEAR) == y) {
+                    CreateTripJButton(t);
+                }
+            } else if (d != -1 && m != -1 && y == -1) {
+                if (calendar.get(Calendar.DAY_OF_MONTH) == d && (calendar.get(Calendar.MONTH) + 1) == m) {
+                    CreateTripJButton(t);
+                }
+            } else if (d != -1 && m != -1 && y != -1) {
+                if (calendar.get(Calendar.DAY_OF_MONTH) == d && (calendar.get(Calendar.MONTH) + 1) == m && calendar.get(Calendar.YEAR) == y) {
+                    CreateTripJButton(t);
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "CompareDateWithTrip, Exception: " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public boolean CompareDateWithJcombo(int d, int m, int y) {//jcombo date must be logic
+        if (d != -1 && m != -1 && y != -1) {
+            Calendar cal = Calendar.getInstance();
+            Date dateNow = cal.getTime();
+            cal.add(Calendar.MONTH, 1);
+            Date dateAfter1month = cal.getTime();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MM yyyy");
+            Date dateJcombo = null;
+            try {
+                dateJcombo = sdf.parse(d + " " + m + " " + y);
+                if ((dateAfter1month.after(dateJcombo) || dateAfter1month.equals(dateJcombo))) {
+                    if (dateNow.before(dateJcombo) || dateNow.equals(dateJcombo)) {
+                        return true;
+                    } else {
+                        JOptionPane.showMessageDialog(null, "The date is before today!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "You can only book ticket that is 1 month from today!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "CompareDateWithJcombo, Exception: " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            return true;
+        }
+        return false;
+    }
+    //end sorting
     public static ImageIcon createImageIcon(String path, int w, int h) {
         ImageIcon img = null;
         ImageIcon icon = null;
