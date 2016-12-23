@@ -56,7 +56,28 @@ public class TicketTripInfo extends JFrame {
         currentCounter = ds;
         mtc = new MaintainTripControl();
         mdc = new MaintainDslocationControl();
+//display trip
+        srcModel.addElement("All");
+        destModel.addElement("All");
+        ddayModel.addElement("Any");
+        dmonthModel.addElement("Any");
+        dyearModel.addElement("Any");
 
+        for (int i = 0; i < mdc.getAllRecord().size(); i++) {
+            srcModel.addElement(mdc.getAllRecord().get(i).getDestl());
+            destModel.addElement(mdc.getAllRecord().get(i).getDestl());
+        }
+        tripList = mtc.getAllRecord();
+        jpTrip.setLayout(new GridLayout((int) Math.ceil(tripList.size() / 6.0), 6, 5, 5));
+        jpTrip.setBackground(Color.WHITE);
+        jpTrip.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        jpCombo.setBackground(Color.WHITE);
+        jpContentHeader.setBackground(Color.WHITE);
+        for (int i = 0; i < tripList.size(); i++) {
+            CreateTripJButton(tripList.get(i));
+        }
+//End display trip
         Calendar calOri = Calendar.getInstance();
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, 1);
