@@ -290,7 +290,9 @@ public class Payment extends JFrame {
                 totalDiscount = Double.parseDouble(jtfAmountDiscount.getText());
             }
             jlbTotalDiscountI.setText(String.format("%.2f", totalDiscount) + "");
-
+            grandTotal = subTotal - totalDiscount - gst;
+            jlbGrandTotalI.setText(String.format("%.2f", grandTotal) + "");
+            balanceDue = grandTotal;
             jlbBalanceDueI.setText(String.format("%.2f", balanceDue) + "");
             double balanceDue2 = 0;
             do {
