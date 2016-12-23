@@ -328,5 +328,100 @@ public class Payment extends JFrame {
     public static void main(String[] args) {
     }
 
-    
+    public void newTrans() {
+        JFrame receiptFrame = new JFrame();
+        JTextArea jtaReceipt = new JTextArea("");
+        JTextArea jtaTicket = new JTextArea("");
+        jtaReceipt.setEditable(false);
+        jtaTicket.setEditable(false);
+        Paymenttype pymtid = paymentControl.selectRecordbyPayment("" + jcbBankSelection.getSelectedItem());
+        try {
+            pymtid.getPymtid();
+        } catch (NullPointerException ex) {
+            pymtid = paymentControl.selectRecordbyPayment("Cash");
+        }
+        transUpdate = new Trans(transID.getText(), null, currentStaff, currentCounter, "PAID", pymtid,
+                jtfCustomerName.getText(), jtfContactNum.getText(),
+                jtfCreditCardNo.getText(), jtfTypeOfDiscount.getText(), Double.parseDouble(jtfAmountDiscount.getText()), grandTotal, new Timestamp(new Date().getTime()));
+        transControl.addRecord(transUpdate);
+        for (int i = 0; i < purchasedTicketlist.length; i++) {
+            ticket = null;
+            ticket = purchasedTicketlist[i];
+            ticket.setTransid(transUpdate);
+            ticket.setAvailability(1);
+            ticketControl.updateRecord(ticket);
+            PrintWriter writer2 = null;
+            try {
+                //create a temporary file
+                String timeLog = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+                writer2 = new PrintWriter("src\\Ticket\\" + ticket.getTicketid() + "-" + timeLog + ".txt", "UTF-8");
+                writer2.printf("GotoMalaysia Official Ticket\n");
+                writer2.printf("==========================================================================================\n");
+                writer2.printf("+   #Ticket ID : " + ticket.getTicketid() + "                                                                  +\n");
+                writer2.printf("==========================================================================================\n");
+                writer2.printf("+ From/To     : " + ticket.getTripid().getRouteid().getSourceid().getDestl() + "-" + ticket.getTripid().getRouteid().getDestid().getDestl() + "                                                     +\n");
+                writer2.printf("+ Date/Time   : " + ticket.getTripid().getDepartdate() + "                                                      +\n");
+                writer2.printf("+ Bus Number  : " + ticket.getTripid().getBusid().getCarplate() + "                                                                 +\n");
+                writer2.printf("+ Seat Number : " + ticket.getSeatid().getSeatnumber() + "                                                                      +\n");
+                writer2.printf("+                                                                                        +\n");
+                writer2.printf("+ Company Chop :                     Handling Staff:" + transUpdate.getStaffid().getStaffid() + " - " + transUpdate.getStaffid().getStaffname() + "                  +\n");
+                writer2.printf("==========================================================================================");
+                jtaTicket.append("GotoMalaysia Official Ticket\n");
+                jtaTicket.append("==========================================================================================\n");
+                jtaTicket.append("+   #Ticket ID : " + ticket.getTicketid() + "                                                                                                                                                                       +\n");
+                jtaTicket.append("==========================================================================================\n");
+                jtaTicket.append("+ From/To     : " + ticket.getTripid().getRouteid().getSourceid().getDestl() + "-" + ticket.getTripid().getRouteid().getDestid().getDestl() + "\n");
+                jtaTicket.append("+ Date/Time   : " + ticket.getTripid().getDepartdate() + "\n");
+                jtaTicket.append("+ Bus Number  : " + ticket.getTripid().getBusid().getCarplate() + "\n");
+                jtaTicket.append("+ Seat Number : " + ticket.getSeatid().getSeatnumber() + "\n");
+                jtaTicket.append("+ \n");
+                jtaTicket.append("+ Company Chop :                     Handling Staff:" + transUpdate.getStaffid().getStaffid() + " - " + transUpdate.getStaffid().getStaffname() + "\n");
+                jtaTicket.append("==========================================================================================\n\n\n\n");
+                writer2.close();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Ticket Generator Fail" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        PrintWriter writer = null;
+        try {
+            //create a temporary file
+            String timeLog = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+            writer = new PrintWriter("src\\Receipt\\" + transID.getText() + "-" + timeLog + ".txt", "UTF-8");
+            writer.printf("GotoMalaysia Official Receipt\n#" + transID.getText() + "\n===========\n\n");
+            writer.printf("%-3s %-18s %-35s %-30s %-12s \n", "No.", "TicketID/SeatNo", "From/To", "Departure Date/Time", "Price(RM)");
+            jtaReceipt.append("GotoMalaysia Official Receipt\n#" + transID.getText() + "\n===========\n\n");
+            jtaReceipt.append(String.format("%-3s", "No.") + String.format("%-18s", "TicketID/SeatNo") + String.format("%-35s", "From/To") + String.format("%-30s", "Departure Date/Time") + String.format("%-12s", "Price(RM)") + "\n");
+            for (int i = 0; i < purchasedTicketlist.length; i++) {
+                writer.printf("%-3s %-18s %-35s %-30s %-12s \n", data[i][0] + "", data[i][1] + "", data[i][2] + "", data[i][3] + "", data[i][4]);
+                jtaReceipt.append(String.format("%-3s", data[i][0] + "") + String.format("%-18s", data[i][1] + "") + String.format("%-35s", data[i][2] + "") + String.format("%-30s", data[i][3] + "") + String.format("%-12s", data[i][4]) + "\n");
+            }
+            writer.printf("\nSub Total : RM " + String.format("%.2f", subTotal));
+            writer.printf("\nDiscount : RM " + String.format("%.2f", totalDiscount) + "(" + jtfTypeOfDiscount.getText() + ")");
+            writer.printf("\nGst : RM " + String.format("%.2f", gst));
+            writer.printf("\nGrand Total : RM " + String.format("%.2f", grandTotal));
+            writer.printf("\nChange : RM " + String.format("%.2f", change));
+            jtaReceipt.append("\nSub Total : RM " + String.format("%.2f", subTotal));
+            jtaReceipt.append("\nDiscount : RM " + String.format("%.2f", totalDiscount) + "(" + jtfTypeOfDiscount.getText() + ")");
+            jtaReceipt.append("\nGst : RM " + String.format("%.2f", gst));
+            jtaReceipt.append("\nGrand Total : RM " + String.format("%.2f", grandTotal));
+            jtaReceipt.append("\nChange : RM " + String.format("%.2f", change));
+            writer.close();
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        JOptionPane.showMessageDialog(null, "Payment Success =D");
+        receiptFrame.setTitle("Receipt and Ticket");
+        receiptFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        receiptFrame.setVisible(true);
+        receiptFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        receiptFrame.setLocationRelativeTo(null);
+        receiptFrame.setResizable(false);
+        receiptFrame.setLayout(new GridLayout(1, 2));
+        JScrollPane scrollPane1 = new JScrollPane(jtaTicket);
+        JScrollPane scrollPane2 = new JScrollPane(jtaReceipt);
+        receiptFrame.add(scrollPane2);
+        receiptFrame.add(scrollPane1);
+    }
 }
